@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring API exercise</title>
+    <script>
+        const getTime = async () => {
+            const response = await fetch('http://localhost:8080/getTime');
+            const time = await response.text();
+            alert(time);
+        }
+        const saveText = async () => {
+            const response = await fetch('http://localhost:8080/saveText', {
+                    method: 'POST',
+                    body: document.getElementById('textToSave').value
+                }
+            );
+            document.getElementById('textToSave').value = "";
+        }
+        const getSavedTexts = async () => {
+            const response = await fetch('http://localhost:8080/getSavedTexts');
+            const texts = await response.text();
+            document.getElementById('savedTexts').value = texts;
+        }
+        const getPersons = async () => {
+            const response = await fetch('http://localhost:8080/getPersons');
+            const persons = await response.json();
+            document.getElementById('savedPersons').value = JSON.stringify(persons);
+        }
+        const savePerson = async () => {
+            const response = await fetch('http://localhost:8080/savePerson', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value
+                    })
+                }
+            );
+            document.getElementById('firstName').value = "";
+            document.getElementById('lastName').value = "";
+        }
+    </script>
+</head>
+
+<body>
+<div style="padding: 10px; border-style: solid;">
+    <button onclick="getTime()">What is the time right now?</button>
+</div>
+<div style="padding: 10px; border-style: solid;">
+    <button onclick="saveText()">Save the text</button>
+    <input type="text" id="textToSave" name="textToSave"/>
+</div>
+<div style="padding: 10px; border-style: solid;">
+    <div><button onclick="getSavedTexts()">Get saved texts</button></div>
+    <div style="padding-top: 10px;">
+        <textarea id="savedTexts" name="savedTexts" rows="5" cols="33"/>
+        </textarea>
+    </div>
+</div>
+<div style="padding: 10px; border-style: solid;">
+    <label for="firstName">First name:</label><br>
+    <input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Last name:</label><br>
+    <input type="text" id="lastName" name="lastName"><br><br>
+    <div><button onclick="savePerson()">Save person</button></div>
+</div>
+<div style="padding: 10px; border-style: solid;">
+    <div><button onclick="getPersons()">Get persons</button></div>
+    <div style="padding-top: 10px;">
+        <textarea id="savedPersons" name="savedPersons" rows="5" cols="33"/>
+        </textarea>
+    </div>
+</div>
+</body>
+
+
+
+</html>
